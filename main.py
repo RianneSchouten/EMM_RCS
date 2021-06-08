@@ -49,11 +49,11 @@ def main(data_name=None, trend_name=None, qm=None,
 
 if __name__ == '__main__':
 
-    # current options for trend_var: prev, prev_slope, mov_prev, mov_prev_slope, mean
+    # current options for trend_var: prev, prev_slope, mov_prev, mov_prev_slope, mean, ratio
     # current options for hypothesis: data, value
     # current options for value: any value in combination with hypothesis: value
-    # current options for use_se (if hypothesis = value): True, False
-    # current options for qm: max, count, average
+    # current options for use_se (if hypothesis = value): True, False, 'multiply'
+    # current options for qm: max, count, average, sum, min
     # current options for threshold: any value (<) in combination with qm: count
 
     '''
