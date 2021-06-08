@@ -70,7 +70,7 @@ def get_new_qualities(pruned_descriptions=None, dataset=None, descriptives=None,
                 print('subgroup too small')
             else: 
 
-                subgroup_params = qu.calculate_second_part_subgroup_parameters(subgroup_params=subgroup_params, model_params=model_params)
+                subgroup_params = qu.calculate_second_part_subgroup_parameters(subgroup_params=subgroup_params, model_params=model_params, subgroup=subgroup, attributes=attributes)
                 check_connected_occassions = cs.constraint_connected_occassions(general_params=general_params, subgroup_params=subgroup_params, 
                                                                             constraints=constraints, model_params=model_params)
 

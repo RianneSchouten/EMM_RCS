@@ -112,19 +112,30 @@ def adapt_subgroup_params(difs=None, subgroup_params=None, model_params=None):
 
     new_subgroup_params = subgroup_params.copy()
 
-    idx = np.where(difs < 0)
+    sel = difs > 0
+    all_idx = new_subgroup_params['params'].index.values
+    sel_idx = [all_idx[i] for i in np.arange(len(all_idx)) if not sel[i]]
+
+    #print(new_subgroup_params['params'])
+    
+    #np.where(difs < 0)
     #print(idx)
-    all_idx = np.arange(len(subgroup_params['occassion_selector']))
-    sel_idx = np.setdiff1d(all_idx, idx)
-    new_sel = [new_subgroup_params['occassion_selector'][i] for i in sel_idx]
+    #all_idx = np.arange(len(subgroup_params['occassion_selector']))
+    #sel_idx = np.setdiff1d(all_idx, idx)
+    #new_sel = [new_subgroup_params['occassion_selector'][i] for i in sel_idx]
+    new_sel = [i for i in all_idx if i not in sel_idx]
     new_subgroup_params['occassion_selector'] = new_sel
     
     new_params = new_subgroup_params['params']
     if model_params['trend_var'] in ['prev', 'prev_slope', 'mov_prev', 'mov_prev_slope']:
-        new_params.loc[subgroup_params['occassion_selector'][idx], 'prev'] = np.nan
+        new_params.loc[sel_idx, 'prev'] = np.nan
     elif model_params['trend_var'] == 'mean':
-        new_params.loc[subgroup_params['occassion_selector'][idx], 'mean'] = np.nan
+        new_params.loc[sel_idx, 'mean'] = np.nan
+    elif model_params['trend_var'] == 'ratio':
+        new_params.loc[sel_idx, 'ratio'] = np.nan
 
     new_subgroup_params['params'] = new_params
+
+    #print(new_subgroup_params['params'])
 
     return new_subgroup_params

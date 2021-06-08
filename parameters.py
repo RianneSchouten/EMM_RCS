@@ -6,11 +6,12 @@ import parameters_prev_slope as pps
 import parameters_mov_prev as pmp
 import parameters_mov_prev_slope as pmps
 import parameters_mean as pm
+import parameters_ratio as pmr
 
 def calculate_general_params(dataset=None, attributes=None, model_params=None):  
 
     params = calculate_first_part_params(dataset=dataset, attributes=attributes, model_params=model_params, general_params=None)
-    params = calculate_second_part_params(params=params, model_params=model_params)
+    params = calculate_second_part_params(params=params, dataset=dataset, attributes=attributes, model_params=model_params)
 
     return params
 
@@ -42,12 +43,14 @@ def calculate_first_part_params(dataset=None, attributes=None, model_params=None
         params = pmps.parameters_mov_prev_slope(counts=counts, dataset=dataset, time_attribute=time_attribute, outcome_attribute=outcome_attribute)
     elif model_params['trend_var'] == 'mean':
         params = pm.parameters_mean(counts=counts, dataset=dataset, time_attribute=time_attribute, outcome_attribute=outcome_attribute)
+    elif model_params['trend_var'] == 'ratio':
+        params = pmr.parameters_ratio(counts=counts, dataset=dataset, time_attribute=time_attribute, outcome_attribute=None)
     else: 
         print('trend variable not available')
 
     return params
 
-def calculate_second_part_params(params=None, model_params=None):
+def calculate_second_part_params(params=None, model_params=None, dataset=None, attributes=None):
 
     if model_params['trend_var'] == 'prev':
         params = pp.parameters_prev_rest(params=params)
@@ -59,6 +62,8 @@ def calculate_second_part_params(params=None, model_params=None):
         params = pmps.parameters_mov_prev_slope_rest(params=params)
     elif model_params['trend_var'] == 'mean':
         params = pm.parameters_mean_rest(params=params)
+    elif model_params['trend_var'] == 'ratio':
+        params = pmr.parameters_ratio_rest(params=params, dataset=dataset, time_attribute=attributes['time_attribute'])
 
     return params
 

@@ -17,6 +17,8 @@ def parameters_mov_prev_rest(params=None):
     ses = np.sqrt(var)
     temp_params['prev_se'] = ses
 
+    temp_params = replace_zero_se(params=temp_params)
+
     prevs = temp_params['prev'].values
     n = temp_params['n'].values
     window = 2
@@ -47,5 +49,13 @@ def parameters_mov_prev_rest(params=None):
 
     temp_params['mov_prev_se'] = np.append(ses, list(nans))
     params = temp_params.copy()
+
+    return params
+
+def replace_zero_se(params=None):
+
+    idx_replace = params['prev_se'] == 0.0
+    if np.sum(idx_replace) > 0:
+        params.loc[idx_replace, 'prev_se'] = np.min(params.loc[~idx_replace, 'prev_se'])
 
     return params

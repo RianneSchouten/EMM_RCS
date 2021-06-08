@@ -5,7 +5,7 @@ from pandas.api.types import CategoricalDtype
 def load_and_preprocess(trend_name=None):
 
     data = load(trend_name=None)
-    dataset, attributes, descriptives = define_attributes(data=data, skip_attributes=['Leaver'], outcome_attribute=['Remainer'])
+    dataset, attributes, descriptives = define_attributes(data=data, trend_name=trend_name, skip_attributes=['Leaver'], outcome_attribute=['Remainer'])
     dataset, descriptives = missing_data_method(dataset=dataset, descriptives=descriptives)
     finished_dataset = reset_attribute_type(dataset=dataset, descriptives=descriptives)
 
@@ -13,14 +13,18 @@ def load_and_preprocess(trend_name=None):
 
 def load(trend_name=None):
 
-    name_dataset = 'Brexit_preprocessed'
+    if trend_name in ['Leaver_with', 'Remainer', 'Remainer_plus_Leaver']:
+        name_dataset = 'Brexit_preprocessed'
+    elif trend_name in ['Leaver_without']:
+        name_dataset = 'Brexit_preprocessed_without'
+    
     location = 'data_input/Brexit/' + name_dataset + '.sav'
 
     dataset = pd.read_spss(location)
 
     return dataset
 
-def define_attributes(data=None, skip_attributes=None, outcome_attribute=None):
+def define_attributes(data=None, trend_name=None, skip_attributes=None, outcome_attribute=None):
 
     time_attribute = ['Wave']
     #outcome_attribute = ['euspeed1num']
@@ -34,8 +38,13 @@ def define_attributes(data=None, skip_attributes=None, outcome_attribute=None):
 
     num_atts = ['age', 'Tradeimmig']
     bin_atts = ['sex']
-    nom_atts = ['Hindsight', 'work_stat', 'work_organisation', 'work_type', 'region', 'EURef2016']
-    ord_atts = ['Genecon', 'Govthand', 'Posind', 'Poscountry', 'profile_gross_personal', 'education_age', 'socialgradeCIE2']
+
+    if trend_name in ['Leaver_with', 'Remainer', 'Remainer_plus_Leaver']:
+        nom_atts = ['Hindsight', 'work_stat', 'work_organisation', 'work_type', 'region', 'EURef2016']
+        ord_atts = ['Poscountry', 'Posind', 'Genecon', 'Govthand', 'profile_gross_personal', 'education_age', 'socialgradeCIE2']
+    elif trend_name in ['Leaver_without']:
+        nom_atts = ['work_stat', 'work_organisation', 'work_type', 'region', 'EURef2016']
+        ord_atts = ['Genecon', 'Govthand', 'profile_gross_personal', 'education_age', 'socialgradeCIE2']
 
     skip_attributes_temp = []
     if not skip_attributes is None:
@@ -58,17 +67,17 @@ def define_attributes(data=None, skip_attributes=None, outcome_attribute=None):
 
 def missing_data_method(dataset=None, descriptives=None):
 
-    #print(dataset.shape)
+    print(dataset.shape)
     #print(dataset.head(20))
-    #print(dataset.isnull().sum())      
+    print(dataset.isnull().sum())      
 
     # drop variables with more than 50% missing values
     perc_missing = dataset.isnull().sum() / len(dataset)
     drop_vars = perc_missing[perc_missing > 0.5].index.values
     #print(drop_vars)  
-    #print(len(drop_vars))
+    print(len(drop_vars))
     smaller_dataset = dataset.drop(columns=drop_vars)
-    #print(smaller_dataset.shape)
+    print(smaller_dataset.shape)
 
     # drop those variables from attributes
     bin_atts = descriptives['bin_atts']
@@ -84,10 +93,13 @@ def missing_data_method(dataset=None, descriptives=None):
     descriptives['bin_atts'] = bin_atts
     descriptives['nom_atts'] = nom_atts
     descriptives['ord_atts'] = ord_atts
-    #print(descriptives)
+    print(descriptives)
 
     new_dataset = smaller_dataset.copy()
     data_sorted = new_dataset.sort_values(['Wave'], ascending=[True]).reset_index(drop=True)
+    
+    data_sorted['id'] = np.arange(len(data_sorted))
+    
     #print(data_sorted.tail())
 
     return data_sorted, descriptives
@@ -113,7 +125,7 @@ def reset_attribute_type(dataset=None, descriptives=None):
             cat_type = CategoricalDtype(categories=[list(finished_dataset[var].cat.categories)[i] for i in new_order], ordered=True)
             finished_dataset[var] = finished_dataset[var].astype(cat_type)
             #print(finished_dataset[var].cat.categories)
-
+        
         elif var == 'Posind':
             #print(finished_dataset[var].cat.categories)
             new_order = [0,4,2,1,3,5]
@@ -127,7 +139,7 @@ def reset_attribute_type(dataset=None, descriptives=None):
             cat_type = CategoricalDtype(categories=[list(finished_dataset[var].cat.categories)[i] for i in new_order], ordered=True)
             finished_dataset[var] = finished_dataset[var].astype(cat_type)
             #print(finished_dataset[var].cat.categories)
-
+        
         elif var == 'profile_gross_personal':
             #print(finished_dataset[var].cat.categories)
             new_order = [0,10,1,3,4,5,6,7,8,9,11,12,13,2]

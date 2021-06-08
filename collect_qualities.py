@@ -21,9 +21,9 @@ def calculate_first_part_subgroup_parameters(subgroup=None, attributes=None, mod
 
     return subgroup_params
 
-def calculate_second_part_subgroup_parameters(subgroup_params=None, model_params=None):
+def calculate_second_part_subgroup_parameters(subgroup_params=None, subgroup=None, attributes=None, model_params=None):
 
-    added_params = pa.calculate_second_part_params(params=subgroup_params['params'], model_params=model_params)
+    added_params = pa.calculate_second_part_params(params=subgroup_params['params'], dataset=subgroup, attributes=attributes, model_params=model_params)
     subgroup_params['params'] = added_params    
 
     return subgroup_params

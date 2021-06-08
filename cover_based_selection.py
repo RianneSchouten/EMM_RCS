@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-def select_using_weighted_coverage(candidates=None, stop_number=None, data_size=None, wcs_params=None):
+def select_using_weighted_coverage(candidates=None, stop_number=None, data_size=None, wcs_params=None, model_params=None):
 
     # if the number of candidates is smaller than the desired number, we can just select all candidates
     if len(candidates) > stop_number:
@@ -38,7 +38,11 @@ def select_using_weighted_coverage(candidates=None, stop_number=None, data_size=
                 candidates_with_updated_qms.append(candidate)
 
             # re-sort candidates
-            candidates_sorted = sorted(candidates_with_updated_qms, key = lambda i: i['qualities']['temp_qm_value'], reverse=True)
+            if model_params['order'] == 'max':
+                reverse = True
+            elif model_params['order'] == 'min':
+                reverse = False
+            candidates_sorted = sorted(candidates_with_updated_qms, key = lambda i: i['qualities']['temp_qm_value'], reverse=reverse)
             # select first candidate and update other lists
             #sel_idx = candidates_sorted[0]['qualities'].pop('sg_idx')
             sel_idx = candidates_sorted[0]['qualities']['sg_idx']

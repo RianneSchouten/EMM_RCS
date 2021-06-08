@@ -44,7 +44,26 @@ FREQUENCIES VARIABLES=sex region EURef2016 profile_gross_personal
     education_age socialgradeCIE2 work_stat work_organisation work_type Hindsight Poscountry Posind 
     Govthand Tradeimmig Genecon Leaver Remainer
   /ORDER=ANALYSIS.
-    
+
 save 
 /outfile= 'C:\Users\20200059\Documents\Github\EMM_RCS\data_input\Brexit\Brexit_preprocessed.sav'
+/keep = all.
+
+* we delete more variables that have a high correlation with leaver
+    
+dataset close all.
+
+get /file = 'C:\Users\20200059\Documents\Github\EMM_RCS\data_input\Brexit\Brexit_preprocessed.sav'.
+    
+CORRELATIONS
+  /VARIABLES=age sex region EURef2016 profile_gross_personal education_age socialgradeCIE2 
+    work_stat work_organisation work_type Hindsight Poscountry Posind Govthand Tradeimmig Genecon 
+    Leaver Remainer
+  /PRINT=TWOTAIL NOSIG FULL
+  /MISSING=PAIRWISE.
+    
+DELETE VARIABLES Hindsight Poscountry Posind.
+   
+save 
+/outfile= 'C:\Users\20200059\Documents\Github\EMM_RCS\data_input\Brexit\Brexit_preprocessed_without.sav'
 /keep = all.

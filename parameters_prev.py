@@ -11,9 +11,19 @@ def parameters_prev(counts=None, dataset=None, time_attribute=None, outcome_attr
     ses = np.sqrt(var)
     params['prev_se'] = ses
 
+    params = replace_zero_se(params=params)
+
     return params
 
 def parameters_prev_rest(params=None):
+
+    return params
+
+def replace_zero_se(params=None):
+
+    idx_replace = params['prev_se'] == 0.0
+    if np.sum(idx_replace) > 0:
+        params.loc[idx_replace, 'prev_se'] = np.min(params.loc[~idx_replace, 'prev_se'])
 
     return params
 

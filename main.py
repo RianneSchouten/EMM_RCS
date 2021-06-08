@@ -56,96 +56,206 @@ if __name__ == '__main__':
     # current options for qm: max, count, average
     # current options for threshold: any value (<) in combination with qm: count
 
-    main(data_name='Eurobarometer', 
-         trend_name='lrsnum',
-         beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 25}, # 40 descriptive attributes
-         model_params = {'trend_var': 'mean', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'max', 'threshold': None},
-         constraints = {'min_size': 0.05, 'min_occassions': 0.5},
-         dfd_params = {'make': False, 'm': 0},
-         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
-         date=20210605, 
-         save_location='./data_output/')
-    
     '''
-    main(data_name='Eurobarometer', 
-         trend_name='euspeed1num', 
-         beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 25}, # 40 descriptive attributes
-         model_params = {'trend_var': 'mean', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'average', 'threshold': None},
-         constraints = {'min_size': 0.05, 'min_occassions': 0.5},
-         dfd_params = {'make': False, 'm': 0},
-         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
-         date=20210604, 
-         save_location='./data_output/')
-
-    main(data_name='Eurobarometer', 
-         trend_name='euspeed1num', 
-         beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 25}, # 40 descriptive attributes
-         model_params = {'trend_var': 'mean', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'max', 'threshold': None},
-         constraints = {'min_size': 0.05, 'min_occassions': 0.5},
-         dfd_params = {'make': False, 'm': 0},
-         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
-         date=20210604, 
-         save_location='./data_output/')
-    '''
-    
+    #### HBSC and DNSSSU
+    # Fig 1
     main(data_name='HBSC_DNSSSU', 
          trend_name='MPALC', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20}, # 20 descriptive attributes
-         model_params = {'trend_var': 'prev', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'max', 'threshold': None},
+         model_params = {'trend_var': 'prev', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'max', 'threshold': None, 'order': 'max'},
          constraints = {'min_size': 0.05, 'min_occassions': 1.0},
          dfd_params = {'make': True, 'm': 100},
          wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
          date=20210605, 
          save_location='./data_output/')
-    
+
+    # Fig 2
     main(data_name='HBSC_DNSSSU', 
          trend_name='MPALC', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20},
-         model_params = {'trend_var': 'mov_prev_slope', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'max', 'threshold': None},
+         model_params = {'trend_var': 'mov_prev_slope', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'max', 'threshold': None, 'order': 'max'},
          constraints = {'min_size': 0.05, 'min_occassions': 0.78},
          dfd_params = {'make': True, 'm': 100},
          wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
          date=20210605, 
          save_location='./data_output/')
 
+    # Fig 3
     main(data_name='HBSC_DNSSSU', 
          trend_name='MPALC', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20}, 
-         model_params = {'trend_var': 'mov_prev_slope', 'hypothesis': 'value', 'value': 0.0, 'use_se': False, 'qm': 'count', 'threshold': 0.01},
+         model_params = {'trend_var': 'mov_prev_slope', 'hypothesis': 'value', 'value': 0.0, 'use_se': False, 'qm': 'count', 'threshold': 0.01, 'order': 'max'},
          constraints = {'min_size': 0.05, 'min_occassions': 0.78},
          dfd_params = {'make': True, 'm': 100},
          wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
          date=20210605, 
          save_location='./data_output/')
 
-    '''
+    # higher threshold
     main(data_name='HBSC_DNSSSU', 
          trend_name='MPALC', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20}, 
-         model_params = {'trend_var': 'mov_prev_slope', 'hypothesis': 'value', 'value': 0.0, 'use_se': False, 'qm': 'count', 'threshold': 0.05},
+         model_params = {'trend_var': 'mov_prev_slope', 'hypothesis': 'value', 'value': 0.0, 'use_se': False, 'qm': 'count', 'threshold': 0.05, 'order': 'max'},
          constraints = {'min_size': 0.05, 'min_occassions': 0.78},
          dfd_params = {'make': True, 'm': 100},
          wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
-         date=20210604, 
+         date=20210605, 
+         save_location='./data_output/')
+
+    # Fig 4 (not shown in paper)
+    main(data_name='HBSC_DNSSSU', 
+         trend_name='MPALC', 
+         beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20}, 
+         model_params = {'trend_var': 'mov_prev_slope', 'hypothesis': 'value', 'value': 0.0, 'use_se': 'multiply', 'qm': 'count', 'threshold': 1, 'order': 'max'},
+         constraints = {'min_size': 0.05, 'min_occassions': 0.78},
+         dfd_params = {'make': True, 'm': 100},
+         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
+         date=20210606, 
+         save_location='./data_output/')
+
+    main(data_name='HBSC_DNSSSU', 
+         trend_name='MPALC', 
+         beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20}, 
+         model_params = {'trend_var': 'mov_prev_slope', 'hypothesis': 'value', 'value': 0.0, 'use_se': 'multiply', 'qm': 'count', 'threshold': 0.5, 'order': 'max'},
+         constraints = {'min_size': 0.05, 'min_occassions': 0.78},
+         dfd_params = {'make': True, 'm': 100},
+         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
+         date=20210606, 
+         save_location='./data_output/')
+
+    # Other runs
+    # qm sum gives only trends that are overall close to 0 (girls)
+    main(data_name='HBSC_DNSSSU', 
+         trend_name='MPALC', 
+         beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20}, 
+         model_params = {'trend_var': 'mov_prev_slope', 'hypothesis': 'value', 'value': 0.0, 'use_se': 'multiply', 'qm': 'sum', 'threshold': None, 'order': 'min'},
+         constraints = {'min_size': 0.05, 'min_occassions': 0.78},
+         dfd_params = {'make': False, 'm': 100},
+         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
+         date=20210606, 
+         save_location='./data_output/')
+
+    # qm min gives trends with at least one horizontal slope, is not exceptional 
+    main(data_name='HBSC_DNSSSU', 
+         trend_name='MPALC', 
+         beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20}, 
+         model_params = {'trend_var': 'mov_prev_slope', 'hypothesis': 'value', 'value': 0.0, 'use_se': 'multiply', 'qm': 'min', 'threshold': None, 'order': 'min'},
+         constraints = {'min_size': 0.05, 'min_occassions': 0.78},
+         dfd_params = {'False': True, 'm': 100},
+         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
+         date=20210606, 
+         save_location='./data_output/')   
+    ''' 
+    '''
+    #### Eurobarometer
+    main(data_name='Eurobarometer', 
+         trend_name='euspeed1num', 
+         beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 25}, # 40 descriptive attributes
+         model_params = {'trend_var': 'mean', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'max', 'threshold': None, 'order': 'max'},
+         constraints = {'min_size': 0.05, 'min_occassions': 0.5},
+         dfd_params = {'make': True, 'm': 20},
+         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
+         date=20210608, 
+         save_location='./data_output/')
+
+    main(data_name='Eurobarometer', 
+         trend_name='euspeed1num', 
+         beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 25}, # 40 descriptive attributes
+         model_params = {'trend_var': 'mean', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'average', 'threshold': None, 'order': 'max'},
+         constraints = {'min_size': 0.05, 'min_occassions': 0.5},
+         dfd_params = {'make': True, 'm': 20},
+         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
+         date=20210608, 
+         save_location='./data_output/')
+
+    main(data_name='Eurobarometer', 
+         trend_name='lrsnum',
+         beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 25}, # 40 descriptive attributes
+         model_params = {'trend_var': 'mean', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'max', 'threshold': None, 'order': 'max'},
+         constraints = {'min_size': 0.05, 'min_occassions': 0.5},
+         dfd_params = {'make': True, 'm': 20},
+         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
+         date=20210608, 
+         save_location='./data_output/')
+
+    main(data_name='Eurobarometer', 
+         trend_name='lrsnum', 
+         beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 25}, # 40 descriptive attributes
+         model_params = {'trend_var': 'mean', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'average', 'threshold': None, 'order': 'max'},
+         constraints = {'min_size': 0.05, 'min_occassions': 0.5},
+         dfd_params = {'make': True, 'm': 20},
+         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
+         date=20210608, 
          save_location='./data_output/')
     '''
+    #### Brexit
 
+    # Fig 1
+    main(data_name='Brexit', 
+         trend_name='Leaver_with', 
+         beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
+         model_params = {'trend_var': 'prev', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'max', 'threshold': None, 'order': 'max'},
+         constraints = {'min_size': 0.1, 'min_occassions': 0.7},
+         dfd_params = {'make': True, 'm': 100},
+         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 40}, # two times the beam width
+         date=20210606, 
+         save_location='./data_output/')
+
+    # slopes, not shown in paper 
+    main(data_name='Brexit', 
+         trend_name='Leaver_with', 
+         beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
+         model_params = {'trend_var': 'prev_slope', 'hypothesis': 'value', 'value': 0, 'use_se': True, 'qm': 'max', 'threshold': None, 'order': 'max'},
+         constraints = {'min_size': 0.1, 'min_occassions': 0.7},
+         dfd_params = {'make': True, 'm': 100},
+         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 40}, # two times the beam width
+         date=20210606, 
+         save_location='./data_output/')
+
+    # data without 3 variables
+    # prev, not shown in paper
+    main(data_name='Brexit', 
+         trend_name='Leaver_without', 
+         beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
+         model_params = {'trend_var': 'prev', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'max', 'threshold': None, 'order': 'max'},
+         constraints = {'min_size': 0.1, 'min_occassions': 0.7},
+         dfd_params = {'make': True, 'm': 100},
+         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 40}, # two times the beam width
+         date=20210607, 
+         save_location='./data_output/')
+
+    # Fig 2
+    main(data_name='Brexit', 
+         trend_name='Leaver_without', 
+         beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
+         model_params = {'trend_var': 'prev_slope', 'hypothesis': 'value', 'value': 0, 'use_se': True, 'qm': 'max', 'threshold': None, 'order': 'max'},
+         constraints = {'min_size': 0.1, 'min_occassions': 0.7},
+         dfd_params = {'make': True, 'm': 100},
+         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 40}, # two times the beam width
+         date=20210607, 
+         save_location='./data_output/')
+
+    '''
+    # method can be repeated for trend variable 'remainer'
+    # not shown in paper
     main(data_name='Brexit', 
          trend_name='Remainer', 
          beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
-         model_params = {'trend_var': 'prev', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'max', 'threshold': None},
+         model_params = {'trend_var': 'prev', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'max', 'threshold': None, 'order': 'max'},
          constraints = {'min_size': 0.1, 'min_occassions': 0.7},
          dfd_params = {'make': True, 'm': 100},
          wcs_params = {'gamma': 0.9, 'stop_desc_sel': 40}, # two times the beam width
          date=20210605, 
          save_location='./data_output/')
-    
+
+    # ratio estimator needs non-correlated attributes
     main(data_name='Brexit', 
-         trend_name='Leaver', 
+         trend_name='Remainer_plus_Leaver', 
          beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
-         model_params = {'trend_var': 'prev', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'max', 'threshold': None},
+         model_params = {'trend_var': 'ratio', 'hypothesis': 'data', 'value': None, 'use_se': None, 'qm': 'max', 'threshold': None, 'order': 'max'},
          constraints = {'min_size': 0.1, 'min_occassions': 0.7},
-         dfd_params = {'make': True, 'm': 100},
+         dfd_params = {'make': False, 'm': 100},
          wcs_params = {'gamma': 0.9, 'stop_desc_sel': 40}, # two times the beam width
-         date=20210605, 
+         date=20210606, 
          save_location='./data_output/')
+    '''

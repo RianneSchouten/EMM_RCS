@@ -28,7 +28,7 @@ def import_subgroup_from_resultlist(data_name=None, trend_name=None, file_name=N
     #subgroup_params, is_replaced = qu.calculate_subgroup_parameters(subgroup=subgroup, attributes=attributes)
     subgroup_params = qu.calculate_first_part_subgroup_parameters(subgroup=subgroup, attributes=attributes, 
                                                                   model_params=model_params, general_params=general_params)
-    subgroup_params = qu.calculate_second_part_subgroup_parameters(subgroup_params=subgroup_params, model_params=model_params)                                    
+    subgroup_params = qu.calculate_second_part_subgroup_parameters(subgroup_params=subgroup_params, subgroup=subgroup, attributes=attributes, model_params=model_params)                                    
     
     params = subgroup_params['params']
     params['size'] = np.repeat(subgroup_params['sg_size'] / data_size, len(general_params_params))
@@ -46,7 +46,7 @@ def import_subgroup_from_resultlist(data_name=None, trend_name=None, file_name=N
             subgroup, idx, subgroup_compl, idx2 = ss.select_subgroup(description=desc_dict, df=dataset, descriptives=descriptives)
             subgroup_params_more = qu.calculate_first_part_subgroup_parameters(subgroup=subgroup, attributes=attributes, 
                                                                                model_params=model_params, general_params=general_params)
-            subgroup_params_more = qu.calculate_second_part_subgroup_parameters(subgroup_params=subgroup_params_more, model_params=model_params)   
+            subgroup_params_more = qu.calculate_second_part_subgroup_parameters(subgroup_params=subgroup_params_more, subgroup=subgroup, attributes=attributes, model_params=model_params)   
 
             params = subgroup_params_more['params']
             params['size'] = np.repeat(subgroup_params_more['sg_size'] / data_size, len(general_params_params))

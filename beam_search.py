@@ -13,6 +13,7 @@ def beam_search(dataset=None, attributes=None, descriptives=None, model_params=N
 
     general_params = qu.calculate_general_parameters(dataset=dataset, attributes=attributes, model_params=model_params, constraints=constraints)
     print(len(general_params['params']))
+    print(general_params['params'])
     candidate_queue = rf.create_starting_descriptions(dataset=dataset, descriptives=descriptives, b=beam_search_params['b'])
     #print(candidate_queue)
 
@@ -67,7 +68,7 @@ def beam_search(dataset=None, attributes=None, descriptives=None, model_params=N
                             
                         # a check on subgroup size
                         check_size, constraint_type, subgroup_params = cs.constraint_subgroup_size(general_params=general_params, subgroup_params=subgroup_params, 
-                                                                                               constraints=constraints, model_params=model_params)
+                                                                                                   constraints=constraints, model_params=model_params)
                         if not check_size:
                             n_small_groups += 1
                             if constraint_type == 'small_subgroup': n_type_small_subgroup += 1
@@ -75,9 +76,9 @@ def beam_search(dataset=None, attributes=None, descriptives=None, model_params=N
                             #print('subgroup too small')
                         else: 
 
-                            subgroup_params = qu.calculate_second_part_subgroup_parameters(subgroup_params=subgroup_params, model_params=model_params)
+                            subgroup_params = qu.calculate_second_part_subgroup_parameters(subgroup_params=subgroup_params, model_params=model_params, subgroup=subgroup, attributes=attributes)
                             check_connected_occassions = cs.constraint_connected_occassions(general_params=general_params, subgroup_params=subgroup_params, 
-                                                                                        constraints=constraints, model_params=model_params)
+                                                                                            constraints=constraints, model_params=model_params)
 
                             if not check_connected_occassions:
                                 n_connected_occassions += 1

@@ -76,9 +76,12 @@ def shuffle_dataset(dataset=None, attributes=None, descriptives=None):
     new_idx = idx.copy()
     r.shuffle(new_idx)
 
-    print('make new dataset')
+    #print('make new dataset')
+    #print(dataset.shape)
+    #print(dataset.tail())
     out = list(map(lambda x: dataset.loc[new_idx[x], cols_descs], np.arange(0, len(new_idx))))
     new = pd.DataFrame(out)
+    #print(new.head())
     new.reset_index(drop=True,inplace=True)
 
     old = dataset[keep_cols]

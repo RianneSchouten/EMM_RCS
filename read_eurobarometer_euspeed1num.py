@@ -7,7 +7,7 @@ def load_and_preprocess(trend_name=None):
     data = load(trend_name=trend_name)
     dataset, attributes, descriptives = define_attributes(data=data, skip_attributes=['euspeed1', 'lrsnum'], outcome_attribute=['euspeed1num'])
     dataset, descriptives = missing_data_method(dataset=dataset, descriptives=descriptives)
-    finished_dataset = reset_attribute_type(dataset=dataset, descriptives=descriptives)
+    finished_dataset = reset_attribute_type(dataset=dataset, trend_name=trend_name, descriptives=descriptives)
 
     return finished_dataset, attributes, descriptives
 
@@ -49,6 +49,7 @@ def missing_data_method(dataset=None, descriptives=None):
     #print(new_dataset.isnull().sum())  
 
     data_sorted = new_dataset.sort_values(['eb'], ascending=[True]).reset_index(drop=True)
+    data_sorted['id'] = np.arange(len(data_sorted))
     #print(data_sorted.tail())
 
     return data_sorted, descriptives
@@ -59,8 +60,6 @@ def define_attributes(data=None, skip_attributes=None, outcome_attribute=None):
     #outcome_attribute = ['euspeed1num']
 
     data_sorted = data.sort_values(['eb'], ascending=[True]).reset_index(drop=True)
-    data_sorted['id'] = np.arange(len(data_sorted))
-
     id_attribute = ['id']      
 
     num_atts = ['age']
@@ -102,7 +101,7 @@ def load(trend_name=None):
 
     return dataset
 
-def reset_attribute_type(dataset=None, descriptives=None):
+def reset_attribute_type(dataset=None, trend_name=None, descriptives=None):
 
     finished_dataset = dataset.copy()
     #print(finished_dataset.dtypes)
@@ -114,7 +113,24 @@ def reset_attribute_type(dataset=None, descriptives=None):
         finished_dataset[var] = finished_dataset[var].astype(object)
 
     print(descriptives['ord_atts'])
-    
+
+    # make sure order of time attribute is right:
+    if trend_name == 'euspeed1num':
+        var = 'eb'
+        print(finished_dataset[var].cat.categories)
+        new_order = [0,1,2,3,4,5,6,7,8,9,10,11]
+        cat_type = CategoricalDtype(categories=[list(finished_dataset[var].cat.categories)[i] for i in new_order], ordered=True)
+        finished_dataset[var] = finished_dataset[var].astype(cat_type)     
+        print(finished_dataset[var].cat.categories)
+
+    if trend_name == 'lrsnum':
+        var = 'eb'
+        print(finished_dataset[var].cat.categories)
+        new_order = [40,49,50,51,52,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,41,42,43,44,45,46,47,48]
+        cat_type = CategoricalDtype(categories=[list(finished_dataset[var].cat.categories)[i] for i in new_order], ordered=True)
+        finished_dataset[var] = finished_dataset[var].astype(cat_type)
+        print(finished_dataset[var].cat.categories)
+
     # process ordinal attributes one by one
     for var in descriptives['ord_atts']:
 
