@@ -113,6 +113,7 @@ if __name__ == '__main__':
          date=20210606, 
          save_location='./data_output/')
 
+    # higher threshold
     main(data_name='HBSC_DNSSSU', 
          trend_name='MPALC', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20}, 
@@ -148,6 +149,7 @@ if __name__ == '__main__':
     ''' 
     '''
     #### Eurobarometer
+    # Fig 1
     main(data_name='Eurobarometer', 
          trend_name='euspeed1num', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 25}, # 40 descriptive attributes
@@ -157,7 +159,8 @@ if __name__ == '__main__':
          wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
          date=20210608, 
          save_location='./data_output/')
-
+    
+    # Fig 2
     main(data_name='Eurobarometer', 
          trend_name='euspeed1num', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 25}, # 40 descriptive attributes
@@ -168,6 +171,7 @@ if __name__ == '__main__':
          date=20210608, 
          save_location='./data_output/')
 
+    # another trend variable, not shown in manuscript
     main(data_name='Eurobarometer', 
          trend_name='lrsnum',
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 25}, # 40 descriptive attributes
@@ -177,7 +181,8 @@ if __name__ == '__main__':
          wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
          date=20210608, 
          save_location='./data_output/')
-
+  
+    # another trend variable, not shown in manuscript
     main(data_name='Eurobarometer', 
          trend_name='lrsnum', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 25}, # 40 descriptive attributes
@@ -188,8 +193,8 @@ if __name__ == '__main__':
          date=20210608, 
          save_location='./data_output/')
     '''
+    '''
     #### Brexit
-
     # Fig 1
     main(data_name='Brexit', 
          trend_name='Leaver_with', 
@@ -201,7 +206,7 @@ if __name__ == '__main__':
          date=20210606, 
          save_location='./data_output/')
 
-    # slopes, not shown in paper 
+    # Fig 2
     main(data_name='Brexit', 
          trend_name='Leaver_with', 
          beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
@@ -213,7 +218,7 @@ if __name__ == '__main__':
          save_location='./data_output/')
 
     # data without 3 variables
-    # prev, not shown in paper
+    # prev, not shown in manuscript
     main(data_name='Brexit', 
          trend_name='Leaver_without', 
          beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
@@ -224,7 +229,7 @@ if __name__ == '__main__':
          date=20210607, 
          save_location='./data_output/')
 
-    # Fig 2
+    # prev_slope, not shown in manuscript
     main(data_name='Brexit', 
          trend_name='Leaver_without', 
          beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
@@ -234,10 +239,10 @@ if __name__ == '__main__':
          wcs_params = {'gamma': 0.9, 'stop_desc_sel': 40}, # two times the beam width
          date=20210607, 
          save_location='./data_output/')
-
+    '''
     '''
     # method can be repeated for trend variable 'remainer'
-    # not shown in paper
+    # not shown in manuscript
     main(data_name='Brexit', 
          trend_name='Remainer', 
          beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
@@ -249,6 +254,8 @@ if __name__ == '__main__':
          save_location='./data_output/')
 
     # ratio estimator needs non-correlated attributes
+    # these attributes are too correlated
+    # results not shown in manuscript
     main(data_name='Brexit', 
          trend_name='Remainer_plus_Leaver', 
          beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
