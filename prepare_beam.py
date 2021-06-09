@@ -11,6 +11,7 @@ def collect_beam_and_candidate_result_set(candidate_result_set=None, cq_satisfie
 
         # follow procedure using 1 quality measure
         # we apply description based selection and cover based selection to prevent issues with redundancy
+        print('arrives here')
         candidate_result_set, candidate_queue, n_redun_descs = prepare_beam_and_candidate_result_set(candidate_result_set=candidate_result_set, 
                                                                                                          cq_satisfied=cq_satisfied, 
                                                                                                          model_params=model_params, beam_search_params=beam_search_params,

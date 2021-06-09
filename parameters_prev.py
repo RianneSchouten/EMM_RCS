@@ -24,6 +24,7 @@ def replace_zero_se(params=None):
     idx_replace = params['prev_se'] == 0.0
     if np.sum(idx_replace) > 0:
         params.loc[idx_replace, 'prev_se'] = np.min(params.loc[~idx_replace, 'prev_se'])
+        #print('yes')
 
     return params
 

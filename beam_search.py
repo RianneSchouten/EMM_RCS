@@ -64,6 +64,10 @@ def beam_search(dataset=None, attributes=None, descriptives=None, model_params=N
                     
                     else: 
                         subgroup_params = qu.calculate_first_part_subgroup_parameters(subgroup=subgroup, attributes=attributes, model_params=model_params, general_params=general_params)
+                        
+                        #if list(desc['description'].keys())[0] in ['Hindsight','EURef2016']:
+                        #    print(subgroup_params['params'])
+                        
                         subgroup_params['sg_idx'] = idx_sg # necessary for weighting when selecting beam, see below
                             
                         # a check on subgroup size

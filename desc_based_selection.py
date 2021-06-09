@@ -17,6 +17,7 @@ def remove_redundant_descriptions(descs=None, stop_number=None, model_params=Non
         candidates = [all_descs[0]]
         n_redun_descs = 0
         while i < stop_at:
+            #print(i)
             new_desc = all_descs[i]
             #print('new_desc', new_desc['description'])
             for old_desc in candidates:

@@ -7,49 +7,85 @@ setwd("C:/Users/20200059/Documents/Github/EMM_RCS/data_input/Brexit")
 dataset <- read.spss("Brexit_preprocessed.sav", to.data.frame=TRUE)
 data <- dataset %>% select(-c(Genecon)) %>% drop_na()
 
-head(data)
-dim(data)
-
-md.pattern(data, rotate.names = TRUE)
-
-names(data)
-
-head(data)
-num_data <- sapply(data, as.numeric)
-head(num_data)
-
-empty_run <- ampute(data, run = FALSE)
-mypat <- empty_run$patterns[1,]
-mypat[1,1] <- 1
-mypat[1,12] <- 0
-
-myweights <- empty_run$weights[1,]
-myweights[1,] <- 0
-myweights[1,12] <- 1 # MNAR
-myweights[1,13] <- 1 # MAR high cor 0.6.0.7
-myweights[1,2] <- 1 # MAR low cor 0.2
-
-new_name <- paste0('C:/Users/20200059/Documents/Github/EMM_RCS/data_input/Brexit/MissingDataExperiments/Brexit_', eval(var), '_', eval(type), '.sav')
-
-new_name
-
-props <- c(0.05, 0.1, 0.2, 0.4)
-mechs <- c('MCAR', 'MARh', 'MARl', 'MNAR')
-
-nsims <- length(props) * length(mechs)
-
+# write short dataset, run emm-rcs and work from there
+new_name <- paste0('C:/Users/20200059/Documents/Github/EMM_RCS/data_input/Brexit/MissingDataExperiments/Brexit_short.sav')
 write_csv(data, path = new_name)
 
-?write.csv
+sum(data$Hindsight == 'Wrong')/nrow(data)
 
+# MNAR
+props <- c(0.1, 0.3, 0.5, 0.7, 0.9)
+mech = 'MNAR'
 for(i in 1:length(props)){
-  for(j in 1:length(mechs)){
-    # ampute
-    # save
+  inc_data <- data
+  myprop <- props[i]
+  w <- as.numeric(inc_data$Hindsight == 'Wrong')
+  r <- rbinom(n=sum(w), size=1, prob=myprop)
+  R <- rep(0, length(w))
+  counter = 0
+  for(j in 1:length(R)){
+    if(w[j] == 1){
+      counter = counter + 1
+      if(r[counter] == 1){
+        R[j] <- 1
+      }
+    }
   }
+  print(sum(R)/length(w))
+  inc_data[R == 1, 'Hindsight'] <- NA
+  new_name <- paste0('C:/Users/20200059/Documents/Github/EMM_RCS/data_input/Brexit/MissingDataExperiments/Brexit_', eval(myprop), '_', eval(mech), '.sav')
+  write_csv(inc_data, path = new_name)
 }
-  
-incomp <- ampute(data)$amp
 
-new_name <- paste0('C:/Users/20200059/Documents/Github/EMM_RCS/data_input/Brexit/MissingDataExperiments/Brexit_', eval(var), '_', eval('emp'), '.sav')
-write_csv(incomp, path = new_name)
+# MAR
+props <- c(0.1, 0.3, 0.5, 0.7, 0.9)
+mech <- 'MAR'
+for(i in 1:length(props)){
+  inc_data <- data
+  myprop <- props[i]
+  w <- as.numeric(inc_data$EURef2016 == 'Remain')
+  r <- rbinom(n=sum(w), size=1, prob=myprop)
+  R <- rep(0, length(w))
+  counter = 0
+  for(j in 1:length(R)){
+    if(w[j] == 1){
+      counter = counter + 1
+      if(r[counter] == 1){
+        R[j] <- 1
+      }
+    }
+  }
+  print(sum(R)/length(w))
+  inc_data[R == 1, 'Hindsight'] <- NA
+  new_name <- paste0('C:/Users/20200059/Documents/Github/EMM_RCS/data_input/Brexit/MissingDataExperiments/Brexit_', eval(myprop), '_', eval(mech), '.sav')
+  write_csv(inc_data, path = new_name)
+}
+
+# MCAR
+props <- 0.51*c(0.1, 0.3, 0.5, 0.7, 0.9)
+mech <- 'MCAR'
+for(i in 1:length(props)){
+  inc_data <- data
+  myprop <- props[i]
+  w <- rep(1, length(inc_data))
+  r <- rbinom(n=sum(w), size=1, prob=myprop)
+  R <- rep(0, length(w))
+  counter = 0
+  for(j in 1:length(R)){
+    if(w[j] == 1){
+      counter = counter + 1
+      if(r[counter] == 1){
+        R[j] <- 1
+      }
+    }
+  }
+  print(sum(R)/length(w))
+  inc_data[R == 1, 'Hindsight'] <- NA
+  new_name <- paste0('C:/Users/20200059/Documents/Github/EMM_RCS/data_input/Brexit/MissingDataExperiments/Brexit_', eval(myprop), '_', eval(mech), '.sav')
+  write_csv(inc_data, path = new_name)
+}
+
+
+
+
+
