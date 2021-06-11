@@ -6,3 +6,4 @@ The results are organized per dataset, and for several trend variables again wit
 
 The respective .R scripts can be used to generate the figures presented in the manuscript.
 
+The folder MissingDataExperiments contains the output from the missing data experiments. The results are presented in a table in the manuscript; there are no figures.
