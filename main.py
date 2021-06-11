@@ -58,7 +58,7 @@ if __name__ == '__main__':
 
     '''
     #### HBSC and DNSSSU
-    # Fig 1
+    # results not presented in manuscript
     main(data_name='HBSC_DNSSSU', 
          trend_name='MPALC', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20}, # 20 descriptive attributes
@@ -69,7 +69,7 @@ if __name__ == '__main__':
          date=20210605, 
          save_location='./data_output/')
 
-    # Fig 2
+    # Fig 1
     main(data_name='HBSC_DNSSSU', 
          trend_name='MPALC', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20},
@@ -80,7 +80,7 @@ if __name__ == '__main__':
          date=20210605, 
          save_location='./data_output/')
 
-    # Fig 3
+    # Fig 2
     main(data_name='HBSC_DNSSSU', 
          trend_name='MPALC', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20}, 
@@ -102,7 +102,7 @@ if __name__ == '__main__':
          date=20210605, 
          save_location='./data_output/')
 
-    # Fig 4 (not shown in paper)
+    # Fig 3 (not shown in paper)
     main(data_name='HBSC_DNSSSU', 
          trend_name='MPALC', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20}, 

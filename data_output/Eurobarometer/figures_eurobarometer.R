@@ -68,7 +68,7 @@ trend_plot <- ggplot(sel, aes(x = year, y = mean, color = subgroup)) +
   scale_x_continuous(breaks=c(1:16),
                      labels=T) +
   scale_color_manual(values = pal, 
-                     labels = c("1", "3", "14", "20", "D"),
+                     labels = c("1", "3", "14", "20", "Psi"),
                      name = "") +
   guides(color = guide_legend(nrow=1, override.aes = list(size = 0.7)),
          shape = guide_legend(override.aes = list(size = 0.7))) + 
@@ -134,7 +134,7 @@ trend_plot <- ggplot(sel, aes(x = year, y = mean, color = subgroup)) +
   scale_x_continuous(breaks=c(1:16),
                      labels=T) +
   scale_color_manual(values = pal, 
-                     labels = c("1", "4", "10", "18", "19", "D"),
+                     labels = c("1", "4", "10", "18", "19", "Psi"),
                      name = "") +
   guides(color = guide_legend(nrow=1, override.aes = list(size = 0.7)),
          shape = guide_legend(override.aes = list(size = 0.7))) + 

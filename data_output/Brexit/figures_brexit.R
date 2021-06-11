@@ -283,3 +283,102 @@ trend_plot
 
 name <- paste('./data_output/Brexit/Leaver_without/leaver_without_prev_slope_max.pdf', sep = "", collapse = NULL)
 ggsave(name, width = 8, height = 5, units = "cm")
+
+### combi figure, sg 1 from prev max and sg 1 2 9 from prev slope max
+nr_subgroups = 19.0
+subgroup_numbers <- c(0.0:nr_subgroups)
+pal <- c(gg_color_hue(nr_subgroups+1), "#636363")
+
+data_name <- 'Brexit'
+trend_name <- 'Leaver_with'
+file_name <- "20210606_None_[8, 20, 3, 20]_[0.1, 0.7]_[True, 100]_[0.9, 40]_['prev', 'data', None, None, 'max', None, 'max']"
+
+out <- import_subgroup_from_resultlist(data_name=data_name,
+                                       trend_name=trend_name,
+                                       file_name=file_name, 
+                                       subgroup_numbers=subgroup_numbers)
+general_params <- out[[1]]
+all_params <- out[[2]]
+
+names(all_params)
+names(general_params)
+
+general_params_adapted <- general_params %>%
+  mutate(subgroup = rep(50, nrow(general_params))) %>%
+  select(-min_size)
+all_params_adapted <- all_params %>% select(-size) %>%
+  mutate(subgroup = as.numeric(subgroup) + 1)
+T <- c(1:10)
+data1 <- rbind(all_params_adapted, general_params_adapted) %>%
+  mutate(year = rep(T, length(subgroup_numbers) + 1)) %>%
+  mutate(subgroup = reorder(subgroup, sort(as.numeric(subgroup)))) %>%
+  mutate(subgroup = ifelse(subgroup == 1, 51, subgroup)) %>%
+  mutate(subgroup = as.numeric(subgroup))
+
+nr_subgroups = 19.0
+subgroup_numbers <- c(0.0:nr_subgroups)
+pal <- c(gg_color_hue(nr_subgroups+1), "#636363")
+
+data_name <- 'Brexit'
+trend_name <- 'Leaver_with'
+file_name <- "20210606_None_[8, 20, 3, 20]_[0.1, 0.7]_[True, 100]_[0.9, 40]_['prev_slope', 'value', 0, True, 'max', None, 'max']"
+
+out <- import_subgroup_from_resultlist(data_name=data_name,
+                                       trend_name=trend_name,
+                                       file_name=file_name, 
+                                       subgroup_numbers=subgroup_numbers)
+general_params <- out[[1]]
+all_params <- out[[2]]
+
+names(all_params)
+names(general_params)
+
+general_params_adapted <- general_params %>%
+  mutate(subgroup = rep(50, nrow(general_params))) %>%
+  select(-min_size)
+all_params_adapted <- all_params %>% select(-size) %>%
+  mutate(subgroup = as.numeric(subgroup) + 1)
+T <- c(1:10)
+data2 <- rbind(all_params_adapted, general_params_adapted) %>%
+  mutate(year = rep(T, length(subgroup_numbers) + 1)) %>%
+  mutate(subgroup = reorder(subgroup, sort(as.numeric(subgroup)))) %>%
+  mutate(subgroup = as.numeric(subgroup)) %>%
+  select(-c(prev_slope_se, prev_slope))
+
+sel <- rbind(data2[data2$subgroup %in% c(1,2,9,21), ],
+             data1[data1$subgroup %in% c(51), ]) %>%
+  mutate(type = c(rep(1, 40), rep(2, 10)))
+sel$int <- as.numeric(paste(sel$subgroup, sel$type, sep="."))
+
+pal = c("#fdb462", "#fb8072", "#b3de69", "#636363", "#80b1d3")
+trend_plot <- ggplot(sel, aes(x = year, y = prev, color = as.factor(int),
+                              linetype = as.factor(int))) + 
+  geom_point(size=0.8) + 
+  geom_line(size=0.7) + 
+  ggtitle(label = "") + 
+  xlab("") + 
+  ylab("") +  
+  scale_x_continuous(breaks=c(1:10)) +
+  scale_color_manual(name ="", values = pal, labels = c("1", "2", "9", "Psi", "1")) + 
+  scale_linetype_manual(name = "", values=c(1,1,1,1,2), labels = c("1", "2", "9", "Psi", "1")) +
+  guides(color = guide_legend(nrow=1, override.aes = list(size = 0.7)),
+         shape = guide_legend(override.aes = list(size = 0.7))) + 
+  theme_bw(base_size=7) + 
+  theme(legend.position="top",
+        legend.justification="right",
+        #legend.direction = "vertical",
+        #plot.title = element_text(hjust = 0, vjust=-3), 
+        legend.box.margin = margin(0,0,-0.2,0, "line"),
+        #axis.title.y = element_text(),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        #panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        legend.text  = element_text(size = 7),
+        legend.key.width = unit(0.2,"cm"),
+        legend.key.size = unit(0.2,"cm"),
+        plot.margin = unit(x = c(-2, 1, -2, -2), units = "mm"))
+trend_plot
+
+name <- paste('./data_output/Brexit/Leaver_with/leaver_with_prev_slope_max_combi.pdf', sep = "", collapse = NULL)
+ggsave(name, width = 8, height = 5, units = "cm")

@@ -67,3 +67,7 @@ DELETE VARIABLES Hindsight Poscountry Posind.
 save 
 /outfile= 'C:\Users\20200059\Documents\Github\EMM_RCS\data_input\Brexit\Brexit_preprocessed_without.sav'
 /keep = all.
+
+dataset close all.
+get /file = 'C:\Users\20200059\Documents\Github\EMM_RCS\data_input\Brexit\Brexit_preprocessed.sav'.
+    
