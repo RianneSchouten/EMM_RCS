@@ -6,7 +6,7 @@ import cover_based_selection as cbs
 
 def select_result_set(candidate_result_set=None, beam_search_params=None, wcs_params=None, data_size=None, model_params=None):
 
-    print('result set selection')
+    #print('result set selection')
 
     if model_params['order'] == 'max':
         reverse = True

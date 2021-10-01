@@ -8,7 +8,7 @@ import constraints as cs
 
 def apply_dominance_pruning(result_set=None, dataset=None, descriptives=None, attributes=None, general_params=None, model_params=None, beam_search_params=None, constraints=None):
 
-    print('start pruning')
+    #print('start pruning')
     pruned_descriptions = get_new_descriptions(result_set=result_set)
     pruned_subgroups, n_small_groups, n_type_small_subgroup, n_type_small_occassions, n_type_no_subgroup, n_connected_occassions = get_new_qualities(pruned_descriptions=pruned_descriptions, \
         dataset=dataset, descriptives=descriptives, attributes=attributes, general_params=general_params, model_params=model_params, beam_search_params=beam_search_params, constraints=constraints)

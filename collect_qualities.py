@@ -35,6 +35,7 @@ def add_qm(desc=None, general_params=None, subgroup_params=None, model_params=No
     
     # apply qm function, gives one value per subgroup, add in dictionary
     subgroup_params = me.apply_qm_function(subgroup_params=subgroup_params, model_params=model_params)
+    #print(subgroup_params)
 
     # add new measures to the qualities part
     # we add sg_size here so that it will become part of the output

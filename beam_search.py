@@ -12,8 +12,8 @@ import dominance_pruning as dp
 def beam_search(dataset=None, attributes=None, descriptives=None, model_params=None, beam_search_params=None, wcs_params=None, constraints=None):
 
     general_params = qu.calculate_general_parameters(dataset=dataset, attributes=attributes, model_params=model_params, constraints=constraints)
-    print(len(general_params['params']))
-    print(general_params['params'])
+    #print(len(general_params['params']))
+    #print(general_params['params'])
     candidate_queue = rf.create_starting_descriptions(dataset=dataset, descriptives=descriptives, b=beam_search_params['b'])
     #print(candidate_queue)
 
@@ -21,7 +21,7 @@ def beam_search(dataset=None, attributes=None, descriptives=None, model_params=N
     considered_subgroups = {}
     for d_i in range(1, beam_search_params['d']+1):
 
-        print('d_i', d_i)
+        #print('d_i', d_i)
 
         n_consd = 0
         n_small_groups = 0

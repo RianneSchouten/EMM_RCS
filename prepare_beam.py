@@ -11,7 +11,7 @@ def collect_beam_and_candidate_result_set(candidate_result_set=None, cq_satisfie
 
         # follow procedure using 1 quality measure
         # we apply description based selection and cover based selection to prevent issues with redundancy
-        print('arrives here')
+        #print('arrives here')
         candidate_result_set, candidate_queue, n_redun_descs = prepare_beam_and_candidate_result_set(candidate_result_set=candidate_result_set, 
                                                                                                          cq_satisfied=cq_satisfied, 
                                                                                                          model_params=model_params, beam_search_params=beam_search_params,
@@ -37,13 +37,13 @@ def prepare_beam_and_candidate_result_set(candidate_result_set=None, cq_satisfie
     # apply description-based selection
     # difficult to know when to stop
     # only from 2nd level and onwards
-    print('description-based selection')
+    #print('description-based selection')
     candidates, n_redun_descs = dbs.remove_redundant_descriptions(descs=cq_sorted, stop_number=wcs_params['stop_desc_sel'], 
                                                                   model_params=model_params, beam_search_params=beam_search_params)
 
     # apply cover-based selection
     # len(candidates) should always be larger than 0, at least 1 description will be maintained
-    print('cover-based selection')
+    #print('cover-based selection')
     candidate_queue = cbs.select_using_weighted_coverage(candidates=candidates, stop_number=beam_search_params['w'], 
                                                          data_size=data_size, wcs_params=wcs_params, model_params=model_params)
 
