@@ -16,13 +16,14 @@ class(data$quality_value)
 
 sum <- data %>%
   mutate(qv_yes = ifelse(quality_value != 0, 1, 0)) %>%
-  #filter(quality_value != 0) %>%
+  filter(d != 1) %>%
   group_by(distance, sd, d, qv_yes) %>% 
   summarize(n = n(),
             medq = median(quality_value),
             medr = median(rank),
             minq = min(quality_value),
-            maxq = max(quality_value)) 
+            maxq = max(quality_value)) %>%
+  mutate(prop = n/100)
 
 data %>% 
   filter(quality_value == 0) %>%
@@ -63,7 +64,7 @@ plot <- data %>%
         #panel.border = element_blank(),
         panel.background = element_blank()) + 
   guides(fill=FALSE) + 
-  geom_hline(yintercept=13.6)
+  geom_hline(yintercept=13.5)
 
 plot
 name <- paste('./syntheticplot.pdf', sep = "", collapse = NULL)
