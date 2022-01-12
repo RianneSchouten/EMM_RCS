@@ -69,7 +69,6 @@ if __name__ == '__main__':
          date=20210605, 
          save_location='./data_output/')
 
-    # Fig 1
     main(data_name='HBSC_DNSSSU', 
          trend_name='MPALC', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20},
@@ -80,7 +79,6 @@ if __name__ == '__main__':
          date=20210605, 
          save_location='./data_output/')
 
-    # Fig 2
     main(data_name='HBSC_DNSSSU', 
          trend_name='MPALC', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20}, 
@@ -91,7 +89,7 @@ if __name__ == '__main__':
          date=20210605, 
          save_location='./data_output/')
 
-    # higher threshold
+    # higher threshold, not discussed in paper
     main(data_name='HBSC_DNSSSU', 
          trend_name='MPALC', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20}, 
@@ -102,18 +100,6 @@ if __name__ == '__main__':
          date=20210605, 
          save_location='./data_output/')
 
-    # Fig 3 (not shown in paper)
-    main(data_name='HBSC_DNSSSU', 
-         trend_name='MPALC', 
-         beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20}, 
-         model_params = {'trend_var': 'mov_prev_slope', 'hypothesis': 'value', 'value': 0.0, 'use_se': 'multiply', 'qm': 'count', 'threshold': 1, 'order': 'max'},
-         constraints = {'min_size': 0.05, 'min_occassions': 0.78},
-         dfd_params = {'make': True, 'm': 100},
-         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
-         date=20210606, 
-         save_location='./data_output/')
-
-    # higher threshold
     main(data_name='HBSC_DNSSSU', 
          trend_name='MPALC', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20}, 
@@ -124,7 +110,16 @@ if __name__ == '__main__':
          date=20210606, 
          save_location='./data_output/')
 
-    # Other runs
+    main(data_name='HBSC_DNSSSU', 
+         trend_name='MPALC', 
+         beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 20}, 
+         model_params = {'trend_var': 'mov_prev_slope', 'hypothesis': 'value', 'value': 0.0, 'use_se': 'multiply', 'qm': 'count', 'threshold': 1, 'order': 'max'},
+         constraints = {'min_size': 0.05, 'min_occassions': 0.78},
+         dfd_params = {'make': True, 'm': 100},
+         wcs_params = {'gamma': 0.9, 'stop_desc_sel': 80}, # two times the beam width
+         date=20210606, 
+         save_location='./data_output/')
+
     # qm sum gives only trends that are overall close to 0 (girls)
     main(data_name='HBSC_DNSSSU', 
          trend_name='MPALC', 
@@ -149,7 +144,7 @@ if __name__ == '__main__':
     ''' 
     '''
     #### Eurobarometer
-    # Fig 1
+    # Fig a
     main(data_name='Eurobarometer', 
          trend_name='euspeed1num', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 25}, # 40 descriptive attributes
@@ -160,7 +155,7 @@ if __name__ == '__main__':
          date=20210608, 
          save_location='./data_output/')
     
-    # Fig 2
+    # Fig b
     main(data_name='Eurobarometer', 
          trend_name='euspeed1num', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 25}, # 40 descriptive attributes
@@ -171,7 +166,7 @@ if __name__ == '__main__':
          date=20210608, 
          save_location='./data_output/')
 
-    # another trend variable, not shown in manuscript
+    # another trend variable, not shown in paper
     main(data_name='Eurobarometer', 
          trend_name='lrsnum',
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 25}, # 40 descriptive attributes
@@ -182,7 +177,7 @@ if __name__ == '__main__':
          date=20210608, 
          save_location='./data_output/')
   
-    # another trend variable, not shown in manuscript
+    # another trend variable, not shown in paper
     main(data_name='Eurobarometer', 
          trend_name='lrsnum', 
          beam_search_params = {'b': 8, 'w': 40, 'd': 3, 'q': 25}, # 40 descriptive attributes
@@ -195,7 +190,6 @@ if __name__ == '__main__':
     '''
     '''
     #### Brexit
-    # Fig 1
     main(data_name='Brexit', 
          trend_name='Leaver_with', 
          beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
@@ -206,7 +200,6 @@ if __name__ == '__main__':
          date=20210606, 
          save_location='./data_output/')
 
-    # Fig 2
     main(data_name='Brexit', 
          trend_name='Leaver_with', 
          beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
@@ -218,7 +211,7 @@ if __name__ == '__main__':
          save_location='./data_output/')
 
     # data without 3 variables
-    # prev, not shown in manuscript
+    # prev, not shown in paper
     main(data_name='Brexit', 
          trend_name='Leaver_without', 
          beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
@@ -229,7 +222,7 @@ if __name__ == '__main__':
          date=20210607, 
          save_location='./data_output/')
 
-    # prev_slope, not shown in manuscript
+    # prev_slope, not shown in paper
     main(data_name='Brexit', 
          trend_name='Leaver_without', 
          beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
@@ -242,7 +235,7 @@ if __name__ == '__main__':
     '''
     '''
     # method can be repeated for trend variable 'remainer'
-    # not shown in manuscript
+    # not shown in paper
     main(data_name='Brexit', 
          trend_name='Remainer', 
          beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
@@ -255,7 +248,7 @@ if __name__ == '__main__':
 
     # ratio estimator needs non-correlated attributes
     # these attributes are too correlated
-    # results not shown in manuscript
+    # results not shown in paper
     main(data_name='Brexit', 
          trend_name='Remainer_plus_Leaver', 
          beam_search_params = {'b': 8, 'w': 20, 'd': 3, 'q': 20}, # 20 descriptive attributes
