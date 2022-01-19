@@ -313,7 +313,9 @@ data1 <- rbind(all_params_adapted, general_params_adapted) %>%
   mutate(year = rep(T, length(subgroup_numbers) + 1)) %>%
   mutate(subgroup = reorder(subgroup, sort(as.numeric(subgroup)))) %>%
   mutate(subgroup = ifelse(subgroup == 1, 51, subgroup)) %>%
-  mutate(subgroup = as.numeric(subgroup))
+  mutate(subgroup = as.numeric(subgroup)) %>%
+  mutate(lowerbound = prev - 1.96*prev_se) %>%
+  mutate(upperbound = prev + 1.96*prev_se)
 
 nr_subgroups = 19.0
 subgroup_numbers <- c(0.0:nr_subgroups)
@@ -343,7 +345,9 @@ data2 <- rbind(all_params_adapted, general_params_adapted) %>%
   mutate(year = rep(T, length(subgroup_numbers) + 1)) %>%
   mutate(subgroup = reorder(subgroup, sort(as.numeric(subgroup)))) %>%
   mutate(subgroup = as.numeric(subgroup)) %>%
-  select(-c(prev_slope_se, prev_slope))
+  select(-c(prev_slope_se, prev_slope)) %>%
+  mutate(lowerbound = prev - 1.96*prev_se) %>%
+  mutate(upperbound = prev + 1.96*prev_se)
 
 sel <- rbind(data2[data2$subgroup %in% c(1,2,9,21), ],
              data1[data1$subgroup %in% c(51), ]) %>%
@@ -355,10 +359,13 @@ trend_plot <- ggplot(sel, aes(x = year, y = prev, color = as.factor(int),
                               linetype = as.factor(int))) + 
   geom_point(size=0.8) + 
   geom_line(size=0.7) + 
+  #geom_ribbon(aes(ymin = lowerbound, ymax = upperbound, fill = as.factor(int)), alpha = 0.3, colour = NA) +
+  geom_errorbar(aes(ymin=lowerbound, ymax=upperbound), width=.1, alpha=0.5) +
   ggtitle(label = "") + 
   xlab("") + 
   ylab("") +  
   scale_x_continuous(breaks=c(1:10)) +
+  scale_fill_manual(name ="", values = pal, labels = c("3", "13", "15", "18", "Psi", "11")) + 
   scale_color_manual(name ="", values = pal, labels = c("1", "2", "9", "Psi", "1")) + 
   scale_linetype_manual(name = "", values=c(1,1,1,1,2), labels = c("1", "2", "9", "Psi", "1")) +
   guides(color = guide_legend(nrow=1, override.aes = list(size = 0.7)),

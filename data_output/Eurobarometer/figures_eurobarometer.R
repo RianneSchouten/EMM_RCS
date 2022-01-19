@@ -53,7 +53,9 @@ T <- c('86','87','', '', '90', '', '92','93','94','95','96','97','', '99','00','
 data <- rbind(all_params_adapted,general_params_adapted) %>%
   mutate(year = rep(c(1,2,5,7:12,14:16), length(subgroup_numbers) + 1)) %>%
   #mutate(year = rep(T, length(subgroup_numbers) + 1)) %>%
-  mutate(subgroup = reorder(subgroup, sort(as.numeric(subgroup))))
+  mutate(subgroup = reorder(subgroup, sort(as.numeric(subgroup)))) %>%
+  mutate(lowerbound = mean - 1.96*mean_se) %>%
+  mutate(upperbound = mean + 1.96*mean_se)
 
 #sel <- data[data$subgroup %in% c(1:25,50), ]
 sel <- data[data$subgroup %in% c(1,3,14,20,50), ]
@@ -62,6 +64,7 @@ pal = c("#fdb462", "#bebada", "#fb8072", "#80b1d3","#636363")
 trend_plot <- ggplot(sel, aes(x = year, y = mean, color = subgroup)) + 
   geom_point(size=0.8) + 
   geom_line(size=0.7) + 
+  geom_errorbar(aes(ymin=lowerbound, ymax=upperbound), width=.1, alpha=0.5) +
   ggtitle(label = "") + 
   xlab("") + 
   ylab("") +  
@@ -119,7 +122,9 @@ all_params_adapted <- all_params %>% select(-size) %>%
 T <- c('86','87','', '', '90', '', '92','93','94','95','96','97','', '99','00','01')
 data <- rbind(all_params_adapted,general_params_adapted) %>%
   mutate(year = rep(c(1,2,5,7:12,14:16), length(subgroup_numbers) + 1)) %>%
-  mutate(subgroup = reorder(subgroup, sort(as.numeric(subgroup))))
+  mutate(subgroup = reorder(subgroup, sort(as.numeric(subgroup)))) %>%
+  mutate(lowerbound = mean - 1.96*mean_se) %>%
+  mutate(upperbound = mean + 1.96*mean_se)
 
 #sel <- data[data$subgroup %in% c(0,1:25), ]
 sel <- data[data$subgroup %in% c(1,4,10,18,19,50), ]
@@ -128,6 +133,7 @@ pal = c("#fdb462", "#bebada", "#fb8072", "#80b1d3", "#b3de69", "#636363")
 trend_plot <- ggplot(sel, aes(x = year, y = mean, color = subgroup)) + 
   geom_point(size=0.8) + 
   geom_line(size=0.7) + 
+  geom_errorbar(aes(ymin=lowerbound, ymax=upperbound), width=.1, alpha=0.5) +
   ggtitle(label = "") + 
   xlab("") + 
   ylab("") +  

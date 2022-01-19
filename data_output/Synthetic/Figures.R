@@ -36,25 +36,33 @@ data %>%
   filter(d == 2) %>%
   summarise(med = median(quality_value))
 
-plot <- data %>% 
+plotdata <- data %>% 
   #filter(quality_value != 0) %>%
   filter(d != 1) %>%
   filter(distance != 2) %>%
   mutate(quality_value = ifelse(quality_value == 0, NA, quality_value)) %>%
-  mutate(group = as.character(interaction(distance,sd,d, sep="."))) %>%
-  arrange(desc(group)) %>%
-  mutate(group = fct_reorder(as.factor(group), desc(group))) %>%
-  ggplot(aes(y=quality_value, x=as.factor(group), fill=as.factor(d))) + 
-  geom_boxplot(outlier.color=NA,size=0.1)+ 
-  #geom_violin(trim=TRUE,color = NA) + 
+  mutate(group1 = as.character(interaction(distance,sd,d, sep="."))) %>%
+  mutate(group2 = as.character(interaction(sd,d, sep="."))) %>%
+  arrange(desc(group1)) %>%
+  mutate(group2 = fct_reorder(as.factor(group2), desc(group2)))
+
+plot <- plotdata %>%
+  ggplot(aes(y=quality_value, x=as.factor(group2))) + 
+  geom_boxplot(aes(fill=as.factor(sd),alpha=as.factor(d)),outlier.color=NA,size=0.1) + 
+  facet_wrap(distance~., nrow=2, strip.position="left", labeller = labeller(.cols = label_both), scales="fixed") +
+  #scale_linetype_manual(name = "sd", values = c("solid", "dotted", "blank")) + 
+  scale_fill_manual(name = "sd", values = alpha(c("#1b9e77", "#d95f02", "#7570b3"), 0.6)) +
+  scale_alpha_manual(name = "nlits", values = c(1.2, 0.4, 0.1)) + 
+  guides(alpha = guide_legend(override.aes = list(fill = c('black','black','black')))) + 
   coord_flip() +
+  #geom_violin(trim=TRUE,color = NA) + 
   theme_bw(base_size=7) + 
   #ylab("") +
   ylab("quality value of the true subgroup") +
   #ggtitle("Quality value of subgroup for varying distance, sd and size") +
-  scale_y_continuous(breaks=seq(0,45,by=5))+
+  scale_y_continuous(breaks=seq(0,45,by=5)) +
   theme(axis.title.y=element_blank(),
-        #axis.text.y=element_blank(),
+        axis.text.y=element_blank(),
         axis.ticks.y=element_blank(),
         axis.text.x=element_text(size=7),
         panel.grid.major.x = element_blank(),
@@ -62,9 +70,18 @@ plot <- data %>%
         #panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank(),
         #panel.border = element_blank(),
-        panel.background = element_blank()) + 
-  guides(fill=FALSE) + 
-  geom_hline(yintercept=13.5)
+        panel.background = element_blank(),
+        legend.margin = margin(0, -3, 0, -3),
+        legend.title = element_text(size = 7),
+        legend.title.align=0.0,
+        legend.text  = element_text(size = 5),
+        legend.key.height = unit(0.4,"cm"),
+        legend.key.width = unit(0.3,"cm"),
+        legend.box.spacing = unit(2, "mm"),
+        strip.text = element_text(size=6),
+        plot.margin = unit(c(0,2,0,0), "mm")) + 
+  #guides(fill=FALSE) + 
+  geom_hline(yintercept=13.5, size=0.3)
 
 plot
 name <- paste('./syntheticplot.pdf', sep = "", collapse = NULL)

@@ -250,7 +250,9 @@ data1 <- rbind(all_params_adapted, general_params_adapted) %>%
   #mutate(year = rep(seq(2003, 2019, 2), length(subgroup_numbers) + 1)) %>%
   #mutate(year = rep(c('03/05', '05/07', '07/09', '09/11', '11/13', '13/15', '15/17', '17/19'), length(subgroup_numbers) + 1)) %>%
   mutate(year = rep(c(1:8), length(subgroup_numbers) + 1)) %>%
-  mutate(subgroup = reorder(subgroup, sort(as.numeric(subgroup))))
+  mutate(subgroup = reorder(subgroup, sort(as.numeric(subgroup)))) %>%
+  mutate(lowerbound = mov_prev - 1.96*mov_prev_se) %>%
+  mutate(upperbound = mov_prev + 1.96*mov_prev_se)
 
 nr_subgroups = 19.0
 subgroup_numbers <- c(0.0:nr_subgroups)
@@ -280,7 +282,9 @@ data2 <- rbind(all_params_adapted, general_params_adapted) %>%
   #mutate(year = rep(seq(2003, 2019, 2), length(subgroup_numbers) + 1)) %>%
   #mutate(year = rep(c('03/05', '05/07', '07/09', '09/11', '11/13', '13/15', '15/17', '17/19'), length(subgroup_numbers) + 1)) %>%
   mutate(year = rep(c(1:8), length(subgroup_numbers) + 1)) %>%
-  mutate(subgroup = reorder(subgroup, sort(as.numeric(subgroup))))
+  mutate(subgroup = reorder(subgroup, sort(as.numeric(subgroup)))) %>%
+  mutate(lowerbound = mov_prev - 1.96*mov_prev_se) %>%
+  mutate(upperbound = mov_prev + 1.96*mov_prev_se)
 
 sel <- rbind(data2[data2$subgroup %in% c(3,13,15,18,50), ],
              data1[data1$subgroup %in% c(11), ]) %>%
@@ -289,11 +293,14 @@ sel <- rbind(data2[data2$subgroup %in% c(3,13,15,18,50), ],
 sel$int <- as.numeric(paste(sel$subgroup, sel$type, sep="."))
 
 pal = c("#fdb462", "#fb8072", "#b3de69", "#fccde5", "#636363", "#80b1d3")
+pd <- position_dodge(0.1) # move them .05 to the left and right
 trend_plot <- ggplot(sel, aes(x = year, y = mov_prev, 
                               color = as.factor(int), 
                               linetype = as.factor(int))) + 
   geom_point(size=0.8) + 
   geom_line(size=0.7) + 
+  #geom_ribbon(aes(ymin = lowerbound, ymax = upperbound, fill = as.factor(int)), alpha = 0.3, colour = NA) +
+  geom_errorbar(aes(ymin=lowerbound, ymax=upperbound), width=.1, alpha=0.5) +
   ggtitle(label = "") + 
   xlab("") + 
   ylab("") +  
@@ -304,6 +311,7 @@ trend_plot <- ggplot(sel, aes(x = year, y = mov_prev,
   #                   name = "") +
   #scale_color_discrete(values = pal) +
   scale_color_manual(name ="", values = pal, labels = c("3", "13", "15", "18", "Psi", "11")) + 
+  scale_fill_manual(name ="", values = pal, labels = c("3", "13", "15", "18", "Psi", "11")) + 
   scale_linetype_manual(name = "", values=c(1,1,1,1,1,2), labels = c("3", "13", "15", "18", "Psi", "11")) +
   guides(color = guide_legend(nrow=1, override.aes = list(size = 0.7)),
          shape = guide_legend(override.aes = list(size = 0.7))) + 
